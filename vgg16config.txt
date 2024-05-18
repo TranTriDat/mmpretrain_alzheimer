@@ -1,0 +1,16 @@
+model = dict(
+    type='ImageClassifier', 
+    backbone=dict(
+        num_classes=3,
+        init_cfg = dict(
+            type='Pretrained', 
+            # type='VGG', 
+            checkpoint='https://download.openmmlab.com/mmclassification/v0/vgg/vgg16_batch256_imagenet_20210208-db26f1a5.pth', 
+            prefix='backbone')
+    ),
+    head=dict(
+        topk = (1, ),
+        cal_acc=True,
+    ))
+
+

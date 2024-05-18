@@ -192,6 +192,7 @@ class CustomDataset(BaseDataset):
                  data_prefix: Union[str, dict] = '',
                  ann_file: str = '',
                  with_label=True,
+                 split='',
                  extensions: Sequence[str] = ('.jpg', '.jpeg', '.png', '.ppm',
                                               '.bmp', '.pgm', '.tif'),
                  metainfo: Optional[dict] = None,

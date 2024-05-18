@@ -1,8 +1,10 @@
+FROM ubuntu
+
 ARG PYTORCH="1.12.1"
 ARG CUDA="11.3"
 ARG CUDNN="8"
 
-FROM pytorch/pytorch:${PYTORCH}-cuda${CUDA}-cudnn${CUDNN}-devel
+#FROM pytorch/pytorch:1.10.1-cuda11.3-cudnn8.9.7
 
 # fetch the key refer to https://forums.developer.nvidia.com/t/18-04-cuda-docker-image-is-broken/212892/9
 RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/3bf863cc.pub 32
@@ -21,6 +23,9 @@ RUN pip install openmim
 
 # Install MMPretrain
 RUN conda clean --all
-RUN git clone https://github.com/open-mmlab/mmpretrain.git
-WORKDIR ./mmpretrain
+
+WORKDIR /src
+
 RUN mim install --no-cache-dir -e .
+
+COPY .. .

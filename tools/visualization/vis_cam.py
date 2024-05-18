@@ -126,8 +126,9 @@ def reshape_transform(tensor, model, args):
         # For (B, L, C)
         num_extra_tokens = args.num_extra_tokens or getattr(
             model.backbone, 'num_extra_tokens', 1)
-
+        # print(num_extra_tokens)
         tensor = tensor[:, num_extra_tokens:, :]
+        # print(tensor)
         # get heat_map_height and heat_map_width, preset input is a square
         heat_map_area = tensor.size()[1]
         height, width = to_2tuple(int(math.sqrt(heat_map_area)))
@@ -191,6 +192,8 @@ def get_default_target_layers(model, args):
         for name, layer in model.backbone.named_modules(prefix='backbone')
         if is_norm(layer)
     ]
+    # for i,j in model.backbone.named_modules(prefix='backbone'):
+    #     print(i,j)
     if args.vit_like:
         # For ViT models, the final classification is done on the class token.
         # And the patch tokens and class tokens won't interact each other after
@@ -209,6 +212,7 @@ def get_default_target_layers(model, args):
             return [layer]
 
     # For CNN models, use the last norm layer as the target-layer
+    print(len(norm_layers))
     name, layer = norm_layers[-1]
     print('Automatically choose the last norm layer '
           f'"{name}" as the target layer.')
@@ -232,6 +236,7 @@ def main():
     transforms = Compose(
         [TRANSFORMS.build(t) for t in cfg.test_dataloader.dataset.pipeline])
     data = transforms({'img_path': args.img})
+    # print(data)
     src_img = copy.deepcopy(data['inputs']).numpy().transpose(1, 2, 0)
     data = model.data_preprocessor(default_collate([data]), False)
 

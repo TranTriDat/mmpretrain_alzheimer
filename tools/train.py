@@ -140,8 +140,8 @@ def main():
     args = parse_args()
 
     # load config
+    print(args.config)
     cfg = Config.fromfile(args.config)
-
     # merge cli arguments to config
     cfg = merge_args(cfg, args)
 
